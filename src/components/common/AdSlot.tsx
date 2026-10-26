@@ -1,47 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 interface AdSlotProps {
   slotId?: string;
-  format?: 'banner' | 'in-feed' | 'rectangle';
+  format?: 'auto' | 'banner' | 'in-feed' | 'rectangle';
   className?: string;
 }
 
 export const AdSlot: React.FC<AdSlotProps> = ({
-  slotId = 'placeholder-slot',
-  format = 'banner',
+  slotId = 'auto',
+  format = 'auto',
   className = '',
 }) => {
-  // In production, when VITE_ADSENSE_PUB_ID is supplied, this will mount the Google AdSense script
-  const isAdConfigured = Boolean(import.meta.env.VITE_ADSENSE_PUB_ID);
+  const pubId = (import.meta.env.VITE_ADSENSE_PUB_ID as string) || 'ca-pub-7550936944889241';
 
-  if (!isAdConfigured) {
-    return (
-      <aside
-        aria-label="Sponsored Space"
-        className={`my-8 p-4 rounded-xl border border-dashed border-slate-200 bg-slate-50/50 text-center transition-all ${className}`}
-      >
-        <div className="max-w-md mx-auto py-2">
-          <span className="text-[10px] tracking-wider uppercase font-semibold text-slate-400 block mb-1">
-            Advertisement Space
-          </span>
-          <p className="text-xs text-slate-400">
-            Compliant AdSense placement zone. Ads will appear here following Google publisher review and approval.
-          </p>
-        </div>
-      </aside>
-    );
-  }
+  useEffect(() => {
+    try {
+      // @ts-expect-error Google AdSense global
+      (window.adsbygoogle = window.adsbygoogle || []).push({});
+    } catch {
+      // Silently catch ad blocker or preview issues
+    }
+  }, []);
 
   return (
-    <div className={`ad-container my-6 text-center overflow-hidden ${className}`}>
-      <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-1">
+    <div className={`ad-container my-8 text-center overflow-hidden max-w-5xl mx-auto ${className}`}>
+      <span className="text-[10px] text-slate-400 uppercase tracking-widest block mb-1.5 font-medium">
         Advertisement
       </span>
-      {/* Real AdSense tag container */}
+      {/* Official Google AdSense Tag */}
       <ins
         className="adsbygoogle"
-        style={{ display: 'block' }}
-        data-ad-client={import.meta.env.VITE_ADSENSE_PUB_ID}
+        style={{ display: 'block', minHeight: '90px' }}
+        data-ad-client={pubId}
         data-ad-slot={slotId}
         data-ad-format={format}
         data-full-width-responsive="true"
