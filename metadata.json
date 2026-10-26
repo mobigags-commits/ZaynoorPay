@@ -1,0 +1,7 @@
+{
+  "name": "ZaynoorPay — Premium Digital Wallet & Mobile Financial Platform",
+  "description": "Next-generation digital wallet and payment platform for fast money transfers, bill payments, mobile top-ups, QR transactions, and secure cross-border remittances in English and Urdu.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
+
