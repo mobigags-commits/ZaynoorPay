@@ -1,0 +1,40 @@
+# Robots.txt for ZaynoorPay
+User-agent: *
+Allow: /
+Allow: /features
+Allow: /how-it-works
+Allow: /deposit
+Allow: /withdraw
+Allow: /send
+Allow: /receive
+Allow: /bills
+Allow: /topups
+Allow: /merchant-payments
+Allow: /qr-payments
+Allow: /international-transfers
+Allow: /fees-limits
+Allow: /supported-coverage
+Allow: /security
+Allow: /help
+Allow: /contact
+Allow: /blog
+Allow: /about
+Allow: /privacy-policy
+Allow: /terms
+
+# Disallow private user/admin dashboards from indexing
+Disallow: /dashboard
+Disallow: /admin
+Disallow: /admin/*
+Disallow: /wallet-history
+Disallow: /beneficiaries
+Disallow: /profile
+Disallow: /kyc-verification
+Disallow: /security-settings
+Disallow: /notifications
+Disallow: /support-tickets
+Disallow: /download-statements
+
+# Sitemap declaration
+Sitemap: https://zaynoorpay.com/sitemap.xml
+Sitemap: /sitemap.xml
