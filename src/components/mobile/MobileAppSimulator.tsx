@@ -259,33 +259,28 @@ export const MobileAppSimulator: React.FC = () => {
 
                   <button
                     onClick={() => {
-                      performTransaction({
-                        type: 'add_money',
-                        amount: 250,
-                        currency: selectedCurrency,
-                        recipient: 'Card Deposit',
-                        category: 'deposit',
-                        note: 'Instant App Top-up',
-                      });
-                      setSuccessNotice(`Added ${selectedCurrency} 250 to Wallet!`);
-                      setTimeout(() => setSuccessNotice(''), 3000);
+                      setAppMode('web');
+                      navigate('/deposit');
                     }}
-                    className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center gap-1 transition-transform active:scale-95"
+                    className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center gap-1 transition-transform active:scale-95 cursor-pointer"
                   >
                     <div className="w-9 h-9 rounded-full bg-emerald-600 flex items-center justify-center text-white">
-                      <Plus className="w-4 h-4" />
+                      <ArrowDownLeft className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-medium text-slate-200">Add $</span>
+                    <span className="text-[10px] font-medium text-slate-200">Deposit</span>
                   </button>
 
                   <button
-                    onClick={() => setActiveTab('transfers')}
-                    className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center gap-1 transition-transform active:scale-95"
+                    onClick={() => {
+                      setAppMode('web');
+                      navigate('/withdraw');
+                    }}
+                    className="p-2.5 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 flex flex-col items-center gap-1 transition-transform active:scale-95 cursor-pointer"
                   >
-                    <div className="w-9 h-9 rounded-full bg-blue-600 flex items-center justify-center text-white">
-                      <Zap className="w-4 h-4" />
+                    <div className="w-9 h-9 rounded-full bg-[#D6B36A] flex items-center justify-center text-[#101A33]">
+                      <ArrowUpRight className="w-4 h-4" />
                     </div>
-                    <span className="text-[10px] font-medium text-slate-200">Bills</span>
+                    <span className="text-[10px] font-medium text-slate-200">Withdraw</span>
                   </button>
                 </div>
 

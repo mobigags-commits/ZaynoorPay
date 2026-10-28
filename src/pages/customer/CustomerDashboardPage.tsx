@@ -106,6 +106,24 @@ export const CustomerDashboardPage: React.FC = () => {
               <span className="text-xs text-slate-400 mt-2 block font-mono">
                 Double-Entry Cryptographically Reconciled · No Pending Holds
               </span>
+
+              {/* Quick Direct Deposit & Withdraw Action Buttons */}
+              <div className="flex flex-wrap items-center gap-2.5 pt-4">
+                <button
+                  onClick={() => navigate('/deposit')}
+                  className="px-4 py-2 bg-[#C8102E] hover:bg-[#a50d26] text-white font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                >
+                  <ArrowDownLeft className="w-4 h-4" />
+                  <span>Deposit Funds (ڈپازٹ)</span>
+                </button>
+                <button
+                  onClick={() => navigate('/withdraw')}
+                  className="px-4 py-2 bg-[#D6B36A] hover:bg-[#c4a157] text-[#101A33] font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-1.5 cursor-pointer"
+                >
+                  <ArrowUpRight className="w-4 h-4" />
+                  <span>Withdraw Cash (ودڈرا)</span>
+                </button>
+              </div>
             </div>
 
             {/* Monthly Limit Progress */}
@@ -181,14 +199,14 @@ export const CustomerDashboardPage: React.FC = () => {
           </button>
 
           <button
-            onClick={() => navigate('/add-money')}
+            onClick={() => navigate('/deposit')}
             className="p-5 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 hover:shadow-md transition-all text-left space-y-2 cursor-pointer group"
           >
             <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition-transform">
               <PlusCircle className="w-5 h-5" />
             </div>
-            <span className="font-bold text-sm text-[#101A33] block">Add Funds</span>
-            <span className="text-[11px] text-slate-500 block">Card or Bank Deposit</span>
+            <span className="font-bold text-sm text-[#101A33] block">Deposit Funds (ڈپازٹ)</span>
+            <span className="text-[11px] text-slate-500 block">JazzCash, EasyPaisa, Bank, Card</span>
           </button>
 
           <button
@@ -198,8 +216,8 @@ export const CustomerDashboardPage: React.FC = () => {
             <div className="w-10 h-10 rounded-xl bg-[#101A33]/10 text-[#101A33] flex items-center justify-center group-hover:scale-105 transition-transform">
               <Landmark className="w-5 h-5" />
             </div>
-            <span className="font-bold text-sm text-[#101A33] block">Withdraw Cash</span>
-            <span className="text-[11px] text-slate-500 block">Bank Wire or ATM PIN</span>
+            <span className="font-bold text-sm text-[#101A33] block">Withdraw Cash (ودڈرا)</span>
+            <span className="text-[11px] text-slate-500 block">Mobile Wallet, Bank, ATM Token</span>
           </button>
 
           <button

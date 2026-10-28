@@ -99,8 +99,8 @@ const AppRouter: React.FC = () => {
     if (path === '/how-it-works') return <HowItWorksPage />;
     if (path === '/send') return <SendMoneyPage />;
     if (path === '/receive') return <ReceiveMoneyPage />;
-    if (path === '/add-money') return <AddMoneyPage />;
-    if (path === '/withdraw') return <WithdrawMoneyPage />;
+    if (path === '/add-money' || path === '/deposit' || path === '/add-funds') return <AddMoneyPage />;
+    if (path === '/withdraw' || path === '/withdrawal' || path === '/cashout') return <WithdrawMoneyPage />;
     if (path === '/bills') return <BillPaymentsPage />;
     if (path === '/topups') return <MobileTopupsPage />;
     if (path === '/merchant-payments') return <MerchantPaymentsPage />;

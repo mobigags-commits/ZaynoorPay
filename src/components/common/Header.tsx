@@ -11,7 +11,9 @@ import {
   User, 
   LogOut,
   ChevronDown,
-  Sparkles
+  Sparkles,
+  ArrowDownLeft,
+  ArrowUpRight
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -111,6 +113,20 @@ export const Header: React.FC = () => {
               {t.nav.security}
             </button>
             <button
+              onClick={() => handleNav('/deposit')}
+              className={`whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1 ${currentPath === '/deposit' || currentPath === '/add-money' ? navLinkActive : navLinkHover}`}
+            >
+              <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-400" />
+              <span>{language === 'ur' ? 'ڈپازٹ (جمع)' : 'Deposit'}</span>
+            </button>
+            <button
+              onClick={() => handleNav('/withdraw')}
+              className={`whitespace-nowrap shrink-0 cursor-pointer flex items-center gap-1 ${currentPath === '/withdraw' ? navLinkActive : navLinkHover}`}
+            >
+              <ArrowUpRight className="w-3.5 h-3.5 text-[#D6B36A]" />
+              <span>{language === 'ur' ? 'ودڈرا (نکلوائیں)' : 'Withdraw'}</span>
+            </button>
+            <button
               onClick={() => handleNav('/international-transfers')}
               className={`whitespace-nowrap shrink-0 cursor-pointer ${currentPath === '/international-transfers' ? navLinkActive : navLinkHover}`}
             >
@@ -207,6 +223,20 @@ export const Header: React.FC = () => {
                     {!isAdmin && (
                       <>
                         <button
+                          onClick={() => handleNav('/deposit')}
+                          className="w-full text-left px-4 py-2 hover:bg-emerald-50 text-emerald-700 font-semibold flex items-center justify-between"
+                        >
+                          <span>{language === 'ur' ? 'رقم جمع کریں (ڈپازٹ)' : 'Deposit Funds'}</span>
+                          <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-600" />
+                        </button>
+                        <button
+                          onClick={() => handleNav('/withdraw')}
+                          className="w-full text-left px-4 py-2 hover:bg-amber-50 text-amber-800 font-semibold flex items-center justify-between"
+                        >
+                          <span>{language === 'ur' ? 'رقم نکلوائیں (ودڈرا)' : 'Withdraw Cash'}</span>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-[#D6B36A]" />
+                        </button>
+                        <button
                           onClick={() => handleNav('/wallet-history')}
                           className="w-full text-left px-4 py-2 hover:bg-slate-50 text-slate-600"
                         >
@@ -288,6 +318,24 @@ export const Header: React.FC = () => {
             </div>
             <span className="text-[10px] bg-[#D6B36A] text-[#101A33] px-2 py-0.5 rounded font-black">Zero Inv</span>
           </button>
+
+          {/* Quick Deposit & Withdraw Buttons for Mobile */}
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              onClick={() => handleNav('/deposit')}
+              className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-300 font-bold text-xs"
+            >
+              <ArrowDownLeft className="w-3.5 h-3.5 text-emerald-400" />
+              <span>{language === 'ur' ? 'ڈپازٹ (فنڈز جمع)' : 'Deposit Funds'}</span>
+            </button>
+            <button
+              onClick={() => handleNav('/withdraw')}
+              className="flex items-center justify-center gap-1.5 p-2.5 rounded-xl bg-[#D6B36A]/20 border border-[#D6B36A]/40 text-[#D6B36A] font-bold text-xs"
+            >
+              <ArrowUpRight className="w-3.5 h-3.5" />
+              <span>{language === 'ur' ? 'ودڈرا (کیش نکالیں)' : 'Withdraw Cash'}</span>
+            </button>
+          </div>
 
           <div className="grid grid-cols-2 gap-2 text-xs font-medium">
             <button onClick={() => handleNav('/')} className="text-left py-2 px-3 rounded-lg hover:bg-white/5">
