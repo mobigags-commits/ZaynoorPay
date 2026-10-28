@@ -74,6 +74,12 @@ interface AppContextType {
   providers: PaymentProviderConfig[];
   toggleProviderStatus: (id: string) => void;
   adminApproveKyc: (userId: string) => void;
+
+  // Owner Earnings, Wallet, Deposit & Withdrawal
+  ownerWallet: import('../types').OwnerWallet;
+  earningStreams: import('../types').EarningStream[];
+  ownerDeposit: (params: { amount: number; currency: CurrencyCode; source: string }) => { success: boolean; error?: string };
+  ownerWithdraw: (params: { amount: number; currency: CurrencyCode; method: string; account: string }) => { success: boolean; error?: string };
 }
 
 const DEFAULT_USER: UserProfile = {
@@ -283,6 +289,152 @@ const INITIAL_PROVIDERS: PaymentProviderConfig[] = [
   { id: 'prv_checkout', name: 'Checkout.com Remittance Gateway', type: 'card_rail', status: 'connected_sandbox', endpoint: 'https://api.checkout.com', webhookVerified: true, supportedCurrencies: ['USD', 'AED', 'SAR', 'EUR'], rateLimitPerSec: 80 },
 ];
 
+const INITIAL_EARNING_STREAMS: import('../types').EarningStream[] = [
+  {
+    id: 'es_tx_fees',
+    title: 'Interbank & P2P Settlement Fees',
+    titleUrdu: 'انٹر بینک اور والیٹ ٹرانسفر فیس',
+    description: 'Automatic $0.50 fixed fee or 0.25% surcharge collected on outbound 1Link, Raast, and ACH transfers.',
+    descriptionUrdu: 'ہر بینک اور والیٹ ٹرانسفر پر خودکار فیس براہ راست مالک کے ریونیو والیٹ میں جمع ہوتی ہے۔',
+    category: 'transaction_fees',
+    currentRate: '$0.50 / PKR 50 per transfer',
+    totalEarnedUsd: 42100.00,
+    totalEarnedPkr: 11720000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_fx_spread',
+    title: 'Foreign Exchange (FX) Spread Margins',
+    titleUrdu: 'فاریکس کرنسی ریٹ مارجن (بیرون ملک ترسیلات)',
+    description: '0.40% to 0.75% liquidity spread retained on international remittance corridors (UK, UAE, KSA, USA, EU to Pakistan).',
+    descriptionUrdu: 'بیرونی ممالک سے بھیجی جانے والی رقوم پر بغیر کسی انویسٹمنٹ کے شفاف کرنسی ریٹ مارجن حاصل ہوتا ہے۔',
+    category: 'fx_spread',
+    currentRate: '0.50% - 0.75% of volume',
+    totalEarnedUsd: 34200.00,
+    totalEarnedPkr: 9520000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_adsense',
+    title: 'Google AdSense Automated Monetization',
+    titleUrdu: 'گوگل ایڈسینس اشتہارات سے خودکار آمدنی',
+    description: 'High-eCPM financial advertisements served via verified Publisher ID (ca-pub-7550936944889241).',
+    descriptionUrdu: 'آپ کی ویب سائٹ کے ٹریفک اور بینرز پر آٹومیٹک گوگل اشتہارات کے کلکس اور امپریشنز سے ڈالر میں کٹائی۔',
+    category: 'adsense',
+    currentRate: 'CPM $3.80 - $8.50 / RPM',
+    totalEarnedUsd: 18450.00,
+    totalEarnedPkr: 5136000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_utility_commission',
+    title: 'Utility Biller Aggregator Kickbacks',
+    titleUrdu: 'بجلی، گیس و انٹرنیٹ بل ادائیگی پر ایگریگیٹر کمیشن',
+    description: '1.2% to 2.0% volume incentive paid by 1Link biller aggregator for each electricity, gas, and water bill cleared.',
+    descriptionUrdu: 'صارفین کی طرف سے ادا کیے گئے ہر یوٹیلیٹی بل پر کمپنی کی جانب سے مالکانہ کمیشن۔',
+    category: 'biller_commissions',
+    currentRate: '1.50% per bill cleared',
+    totalEarnedUsd: 12150.00,
+    totalEarnedPkr: 3382000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_telecom_airtime',
+    title: 'Mobile Load & Airtime Telecom Commissions',
+    titleUrdu: 'موبائل ریچارج اور ڈیٹا بنڈل سیلز کمیشن',
+    description: '2.5% to 3.5% wholesale telecom margin on Jazz, Zong, Telenor, and Ufone prepaid recharge & data bundles.',
+    descriptionUrdu: 'موبائل کمپنیوں (جاز، زونگ، ٹیلی نار، یوفون) کی جانب سے ہر ریچارج پر 2.5% تا 3.5% منافع۔',
+    category: 'biller_commissions',
+    currentRate: '2.50% - 3.50% per top-up',
+    totalEarnedUsd: 9400.00,
+    totalEarnedPkr: 2617000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_merchant_mdr',
+    title: 'Merchant QR & POS Till MDR Fees',
+    titleUrdu: 'دکانداروں کے کیو آر اور پی او ایس سویپ چارجز',
+    description: '1.20% Merchant Discount Rate (MDR) billed to retail stores, supermarkets, and restaurants on checkout payments.',
+    descriptionUrdu: 'دکانوں اور ریسٹورنٹس پر کیو آر اسکیننگ سے ہونے والی ہر خریداری پر 1.2% سے 1.8% بزنس فیس۔',
+    category: 'merchant_mdr',
+    currentRate: '1.20% - 1.80% MDR',
+    totalEarnedUsd: 9850.00,
+    totalEarnedPkr: 2742000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_card_interchange',
+    title: 'Virtual Titanium Visa Interchange Share',
+    titleUrdu: 'ورچوئل ویزا ڈیبٹ کارڈ کا انٹرچینج ریونیو',
+    description: '1.0% global interchange fee earned on user online e-commerce transactions and subscriptions via Visa rail.',
+    descriptionUrdu: 'صارفین کے ذریعے جاری کردہ ورچوئل کارڈز سے آن لائن شاپنگ پر حاصل ہونے والا شیئر۔',
+    category: 'card_interchange',
+    currentRate: '1.00% interchange fee',
+    totalEarnedUsd: 5400.00,
+    totalEarnedPkr: 1503000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+  {
+    id: 'es_bank_referrals',
+    title: 'Sponsored Bank & Insurance Lead Referrals',
+    titleUrdu: 'بینک اکاؤنٹس اور انشورنس ریفرل کمیشن',
+    description: '$10.00 to $35.00 CPA bounty received when verified wallet users open high-yield savings accounts with partner banks.',
+    descriptionUrdu: 'صارفین کو بینک کھاتے، کریڈٹ کارڈ یا ہیلتھ انشورنس ریفر کرنے پر پارٹنر مالیاتی اداروں سے کمیشن۔',
+    category: 'bank_referrals',
+    currentRate: '$15.00 flat per lead',
+    totalEarnedUsd: 4100.00,
+    totalEarnedPkr: 1141000.00,
+    status: 'generating',
+    noInvestmentTag: true,
+  },
+];
+
+const INITIAL_OWNER_WALLET: import('../types').OwnerWallet = {
+  balances: {
+    USD: 48250.00,
+    PKR: 3450000.00,
+    EUR: 12400.00,
+    GBP: 9800.00,
+    AED: 28500.00,
+    SAR: 18200.00,
+  },
+  totalEarnedAllTimeUsd: 128450.00,
+  todayEarnedUsd: 1420.50,
+  revenueBreakdown: {
+    transactionFees: 42100.00,
+    fxSpreadMargins: 34200.00,
+    adSenseRevenue: 18450.00,
+    billerCommissions: 12150.00,
+    merchantMdr: 9850.00,
+    cardInterchange: 5400.00,
+    bankReferrals: 4100.00,
+    premiumTiers: 2200.00,
+  },
+  payoutMethods: [
+    { id: 'pm_1', type: 'bank', title: 'Habib Bank Ltd (HBL) - Primary Corporate Settlement', accountDetails: 'PK36HABB00012398491029 (Account Holder: Zaynoor Founder)', currency: 'PKR', isDefault: true },
+    { id: 'pm_2', type: 'jazzcash', title: 'JazzCash Direct Merchant Wallet', accountDetails: '0300-8492019 (Verified)', currency: 'PKR', isDefault: false },
+    { id: 'pm_3', type: 'easypaisa', title: 'EasyPaisa Master Account', accountDetails: '0345-9921401 (Verified)', currency: 'PKR', isDefault: false },
+    { id: 'pm_4', type: 'crypto_usdt', title: 'Binance / Tether USDT (TRC-20)', accountDetails: 'TJv79x1KqpL29sB2p91A82Q440vBn99X01', currency: 'USD', isDefault: false },
+    { id: 'pm_5', type: 'payoneer', title: 'Payoneer Global Wire Receiving', accountDetails: 'mobigags@gmail.com (ACH Bank Route)', currency: 'USD', isDefault: false },
+  ],
+  withdrawals: [
+    { id: 'ow_101', amount: 5000.00, currency: 'USD', method: 'Binance USDT (TRC-20)', account: 'TJv79x...X01', timestamp: '2026-10-25 14:10', status: 'completed', referenceNumber: 'ZN-OWN-WD-9941', fee: 0 },
+    { id: 'ow_102', amount: 500000.00, currency: 'PKR', method: 'HBL Corporate Settlement', account: 'PK36HABB...1029', timestamp: '2026-10-20 11:30', status: 'completed', referenceNumber: 'ZN-OWN-WD-8812', fee: 0 },
+    { id: 'ow_103', amount: 250000.00, currency: 'PKR', method: 'JazzCash Direct Merchant Wallet', account: '0300-8492019', timestamp: '2026-10-18 16:45', status: 'completed', referenceNumber: 'ZN-OWN-WD-7719', fee: 0 },
+  ],
+  deposits: [
+    { id: 'od_201', amount: 20000.00, currency: 'USD', source: 'Corporate Treasury Capital Reserves', timestamp: '2026-10-15 09:00', status: 'completed', referenceNumber: 'ZN-OWN-DEP-1102' },
+    { id: 'od_202', amount: 1000000.00, currency: 'PKR', source: 'HBL Liquidity Injection', timestamp: '2026-10-10 12:20', status: 'completed', referenceNumber: 'ZN-OWN-DEP-0981' },
+  ],
+};
+
 const AppContext = createContext<AppContextType | null>(null);
 
 export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -323,6 +475,17 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
   const [auditLogs, setAuditLogs] = useState<AuditLog[]>(INITIAL_AUDIT_LOGS);
   const [providers, setProviders] = useState<PaymentProviderConfig[]>(INITIAL_PROVIDERS);
   const [activeReceipt, setActiveReceipt] = useState<Transaction | null>(null);
+
+  // Owner Wallet & Zero-Investment Earning Streams
+  const [ownerWallet, setOwnerWallet] = useState<import('../types').OwnerWallet>(() => {
+    const saved = localStorage.getItem('zaynoor_owner_wallet');
+    return saved ? JSON.parse(saved) : INITIAL_OWNER_WALLET;
+  });
+  const [earningStreams] = useState<import('../types').EarningStream[]>(INITIAL_EARNING_STREAMS);
+
+  useEffect(() => {
+    localStorage.setItem('zaynoor_owner_wallet', JSON.stringify(ownerWallet));
+  }, [ownerWallet]);
 
   // Sync Language & RTL direction
   const setLanguage = (lang: Language) => {
@@ -480,6 +643,27 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
 
     setTransactions(prev => [newTx, ...prev]);
 
+    // Real-time zero-investment owner revenue accretion from platform transactions
+    const earnedFee = customFee > 0 ? customFee : (type === 'bill_payment' ? 0.35 : (type === 'mobile_topup' ? 0.25 : (type === 'merchant_qr' ? 0.40 : 0.10)));
+    setOwnerWallet(prev => {
+      const updatedBal = { ...prev.balances };
+      updatedBal[currency] = parseFloat(((updatedBal[currency] || 0) + earnedFee).toFixed(2));
+      const usdRate = currency === 'USD' ? 1 : currency === 'PKR' ? (1 / 278) : currency === 'EUR' ? 1.08 : currency === 'GBP' ? 1.28 : 0.27;
+      const usdEarned = parseFloat((earnedFee * usdRate).toFixed(2));
+      return {
+        ...prev,
+        balances: updatedBal,
+        totalEarnedAllTimeUsd: parseFloat((prev.totalEarnedAllTimeUsd + usdEarned).toFixed(2)),
+        todayEarnedUsd: parseFloat((prev.todayEarnedUsd + usdEarned).toFixed(2)),
+        revenueBreakdown: {
+          ...prev.revenueBreakdown,
+          transactionFees: prev.revenueBreakdown.transactionFees + (type === 'send' ? usdEarned : 0),
+          billerCommissions: prev.revenueBreakdown.billerCommissions + (type === 'bill_payment' || type === 'mobile_topup' ? usdEarned : 0),
+          merchantMdr: prev.revenueBreakdown.merchantMdr + (type === 'merchant_qr' ? usdEarned : 0),
+        }
+      };
+    });
+
     // Add notification
     const newNotif: NotificationItem = {
       id: `notif_${Date.now()}`,
@@ -606,6 +790,128 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     }
   };
 
+  const ownerDeposit = ({
+    amount,
+    currency,
+    source,
+  }: {
+    amount: number;
+    currency: CurrencyCode;
+    source: string;
+  }) => {
+    if (amount <= 0) {
+      return { success: false, error: 'Deposit amount must be greater than zero.' };
+    }
+    const refNum = `ZN-OWN-DEP-${Date.now().toString().slice(-6)}`;
+    const newDep = {
+      id: `od_${Date.now()}`,
+      amount,
+      currency,
+      source,
+      timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16),
+      status: 'completed' as const,
+      referenceNumber: refNum,
+    };
+
+    setOwnerWallet(prev => {
+      const updatedBal = { ...prev.balances };
+      updatedBal[currency] = parseFloat(((updatedBal[currency] || 0) + amount).toFixed(2));
+      return {
+        ...prev,
+        balances: updatedBal,
+        deposits: [newDep, ...prev.deposits],
+      };
+    });
+
+    const notif: NotificationItem = {
+      id: `notif_dep_${Date.now()}`,
+      title: 'Owner Treasury Deposit Success',
+      message: `Successfully deposited ${currency} ${amount.toLocaleString()} from ${source}. Ref: ${refNum}`,
+      type: 'transaction',
+      read: false,
+      timestamp: 'Just now',
+    };
+    setNotifications(prev => [notif, ...prev]);
+
+    try {
+      confetti({
+        particleCount: 60,
+        spread: 70,
+        origin: { y: 0.5 },
+        colors: ['#D6B36A', '#C8102E', '#16845B']
+      });
+    } catch {}
+
+    return { success: true };
+  };
+
+  const ownerWithdraw = ({
+    amount,
+    currency,
+    method,
+    account,
+  }: {
+    amount: number;
+    currency: CurrencyCode;
+    method: string;
+    account: string;
+  }) => {
+    if (amount <= 0) {
+      return { success: false, error: 'Withdrawal amount must be greater than zero.' };
+    }
+    const currentBal = ownerWallet.balances[currency] || 0;
+    if (currentBal < amount) {
+      return {
+        success: false,
+        error: `Insufficient treasury balance in ${currency}. Available: ${currency} ${currentBal.toLocaleString()}, requested: ${currency} ${amount.toLocaleString()}`
+      };
+    }
+
+    const refNum = `ZN-OWN-WD-${Date.now().toString().slice(-6)}`;
+    const newWd = {
+      id: `ow_${Date.now()}`,
+      amount,
+      currency,
+      method,
+      account,
+      timestamp: new Date().toISOString().replace('T', ' ').slice(0, 16),
+      status: 'completed' as const,
+      referenceNumber: refNum,
+      fee: 0,
+    };
+
+    setOwnerWallet(prev => {
+      const updatedBal = { ...prev.balances };
+      updatedBal[currency] = parseFloat(((updatedBal[currency] || 0) - amount).toFixed(2));
+      return {
+        ...prev,
+        balances: updatedBal,
+        withdrawals: [newWd, ...prev.withdrawals],
+      };
+    });
+
+    const notif: NotificationItem = {
+      id: `notif_wd_${Date.now()}`,
+      title: 'Owner Profit Withdrawal Dispatched',
+      message: `Zero-fee payout of ${currency} ${amount.toLocaleString()} dispatched to ${method} (${account}). Ref: ${refNum}`,
+      type: 'transaction',
+      read: false,
+      timestamp: 'Just now',
+    };
+    setNotifications(prev => [notif, ...prev]);
+
+    try {
+      confetti({
+        particleCount: 80,
+        spread: 80,
+        origin: { y: 0.5 },
+        colors: ['#D6B36A', '#16845B', '#101A33']
+      });
+    } catch {}
+
+    return { success: true };
+  };
+
   const t = translations[language];
 
   return (
@@ -648,6 +954,10 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
         providers,
         toggleProviderStatus,
         adminApproveKyc,
+        ownerWallet,
+        earningStreams,
+        ownerDeposit,
+        ownerWithdraw,
       }}
     >
       {children}

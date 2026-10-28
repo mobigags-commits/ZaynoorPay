@@ -113,3 +113,62 @@ export interface PaymentProviderConfig {
   supportedCurrencies: CurrencyCode[];
   rateLimitPerSec: number;
 }
+
+export interface EarningStream {
+  id: string;
+  title: string;
+  titleUrdu: string;
+  description: string;
+  descriptionUrdu: string;
+  category: 'transaction_fees' | 'fx_spread' | 'adsense' | 'biller_commissions' | 'merchant_mdr' | 'card_interchange' | 'bank_referrals' | 'premium_tiers';
+  currentRate: string;
+  totalEarnedUsd: number;
+  totalEarnedPkr: number;
+  status: 'active' | 'generating';
+  noInvestmentTag: boolean;
+}
+
+export interface OwnerWallet {
+  balances: Record<CurrencyCode, number>;
+  totalEarnedAllTimeUsd: number;
+  todayEarnedUsd: number;
+  revenueBreakdown: {
+    transactionFees: number;
+    fxSpreadMargins: number;
+    adSenseRevenue: number;
+    billerCommissions: number;
+    merchantMdr: number;
+    cardInterchange: number;
+    bankReferrals: number;
+    premiumTiers: number;
+  };
+  payoutMethods: {
+    id: string;
+    type: 'bank' | 'jazzcash' | 'easypaisa' | 'payoneer' | 'crypto_usdt' | 'wire';
+    title: string;
+    accountDetails: string;
+    currency: CurrencyCode;
+    isDefault: boolean;
+  }[];
+  withdrawals: {
+    id: string;
+    amount: number;
+    currency: CurrencyCode;
+    method: string;
+    account: string;
+    timestamp: string;
+    status: 'completed' | 'processing';
+    referenceNumber: string;
+    fee: number;
+  }[];
+  deposits: {
+    id: string;
+    amount: number;
+    currency: CurrencyCode;
+    source: string;
+    timestamp: string;
+    status: 'completed';
+    referenceNumber: string;
+  }[];
+}
+

@@ -64,6 +64,7 @@ import { AdminPaymentProvidersPage } from './pages/admin/AdminPaymentProvidersPa
 import { AdminContentManagementPage } from './pages/admin/AdminContentManagementPage';
 import { AdminReportsPage } from './pages/admin/AdminReportsPage';
 import { AdminSystemStatusPage } from './pages/admin/AdminSystemStatusPage';
+import { OwnerEarningsPage } from './pages/admin/OwnerEarningsPage';
 
 // System Pages
 import { NotFoundPage } from './pages/system/NotFoundPage';
@@ -138,6 +139,7 @@ const AppRouter: React.FC = () => {
     // Admin Portal Pages
     if (path === '/admin-login') return <AdminLoginPage />;
     if (path === '/admin') return <AdminDashboardPage />;
+    if (path === '/owner-earnings' || path === '/admin/owner-earnings') return <OwnerEarningsPage />;
     if (path === '/admin/users') return <AdminUserManagementPage />;
     if (path === '/admin/transactions') return <AdminTransactionsAuditPage />;
     if (path === '/admin/providers') return <AdminPaymentProvidersPage />;

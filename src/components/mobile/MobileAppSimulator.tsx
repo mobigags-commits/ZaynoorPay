@@ -32,7 +32,9 @@ export const MobileAppSimulator: React.FC = () => {
     openReceipt, 
     setAppMode, 
     language,
-    setLanguage
+    setLanguage,
+    ownerWallet,
+    navigate
   } = useApp();
 
   const [activeTab, setActiveTab] = useState<'home' | 'transfers' | 'qr' | 'cards' | 'profile'>('home');
@@ -304,6 +306,31 @@ export const MobileAppSimulator: React.FC = () => {
                   >
                     Manage <ChevronRight className="w-3.5 h-3.5" />
                   </button>
+                </div>
+
+                {/* Owner Earnings & Wallet Quick Mobile Banner */}
+                <div 
+                  onClick={() => {
+                    setAppMode('web');
+                    navigate('/owner-earnings');
+                  }}
+                  className="p-3 rounded-xl bg-gradient-to-r from-[#D6B36A]/20 via-[#101A33] to-[#C8102E]/20 border border-[#D6B36A]/30 cursor-pointer hover:border-[#D6B36A] transition-all flex items-center justify-between"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="w-7 h-7 rounded-lg bg-[#D6B36A] text-[#101A33] flex items-center justify-center font-black text-xs">
+                      $
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-[10px] font-bold text-white">Owner Treasury Hub</span>
+                        <span className="text-[9px] bg-emerald-500/20 text-emerald-400 px-1 py-0.2 rounded font-mono">Zero Inv</span>
+                      </div>
+                      <span className="text-[10px] text-slate-300">
+                        Balance: ${ownerWallet.balances.USD.toLocaleString()} • Withdraw Profits
+                      </span>
+                    </div>
+                  </div>
+                  <ChevronRight className="w-3.5 h-3.5 text-[#D6B36A]" />
                 </div>
 
                 {/* Recent Activity List */}

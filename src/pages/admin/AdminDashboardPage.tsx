@@ -75,8 +75,49 @@ export const AdminDashboardPage: React.FC = () => {
           </div>
         </div>
 
+        {/* OWNER SPECIAL CALLOUT BANNER */}
+        <div className="bg-gradient-to-r from-[#C8102E]/20 via-[#101A33] to-[#D6B36A]/20 rounded-3xl p-6 border border-[#D6B36A]/40 flex flex-col md:flex-row md:items-center justify-between gap-4 shadow-xl">
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-[#D6B36A] flex items-center justify-center text-[#101A33] font-black text-xl shadow-md">
+              $
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-bold bg-[#D6B36A] text-[#101A33] px-2 py-0.5 rounded">
+                  FOUNDER / OWNER
+                </span>
+                <span className="text-xs text-emerald-400 font-bold">100% Zero-Investment Monetization</span>
+              </div>
+              <h2 className="text-lg font-black text-white mt-1">
+                Owner Earnings, Treasury Wallet, Deposit & Withdrawal Console
+              </h2>
+              <p className="text-xs text-slate-300">
+                Track 8 passive revenue channels (fees, FX, AdSense, bills, airtime, MDR) and withdraw profits to HBL, JazzCash, EasyPaisa, or Binance USDT.
+              </p>
+            </div>
+          </div>
+          <button
+            onClick={() => navigate('/owner-earnings')}
+            className="px-5 py-3 bg-[#D6B36A] hover:bg-[#c4a157] text-[#101A33] font-bold text-xs rounded-xl transition-all shadow-md flex items-center gap-2 cursor-pointer shrink-0"
+          >
+            <span>Open Owner Hub</span>
+            <ArrowRight className="w-4 h-4" />
+          </button>
+        </div>
+
         {/* Admin Navigation Hub Modules */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-4 gap-4">
+          <button
+            onClick={() => navigate('/owner-earnings')}
+            className="p-5 bg-gradient-to-b from-[#1B2947] to-[#101A33] hover:border-[#D6B36A] rounded-2xl border border-[#D6B36A]/30 transition-all text-left space-y-2 cursor-pointer group"
+          >
+            <ShieldCheck className="w-5 h-5 text-[#D6B36A] group-hover:scale-105 transition-transform" />
+            <h3 className="font-bold text-sm text-white">Owner Earnings Hub</h3>
+            <p className="text-xs text-slate-400 leading-relaxed">
+              Zero-investment revenue breakdown, Treasury deposits, and local/crypto payouts.
+            </p>
+          </button>
+
           <button
             onClick={() => navigate('/admin/users')}
             className="p-5 bg-[#101A33] hover:bg-[#1B2947] rounded-2xl border border-slate-800 transition-all text-left space-y-2 cursor-pointer group"

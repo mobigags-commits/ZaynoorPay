@@ -10,7 +10,8 @@ import {
   ShieldCheck, 
   User, 
   LogOut,
-  ChevronDown
+  ChevronDown,
+  Sparkles
 } from 'lucide-react';
 
 export const Header: React.FC = () => {
@@ -156,6 +157,20 @@ export const Header: React.FC = () => {
               )}
             </button>
 
+            {/* Owner Earnings & Wallet Direct Hub Button */}
+            <button
+              onClick={() => handleNav('/owner-earnings')}
+              className={`hidden md:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-bold transition-all border ${
+                currentPath === '/owner-earnings'
+                  ? 'bg-[#D6B36A] text-[#101A33] border-[#D6B36A]'
+                  : 'bg-[#D6B36A]/10 text-[#D6B36A] hover:bg-[#D6B36A]/20 border-[#D6B36A]/40'
+              }`}
+              title="Access Platform Owner Revenue, Treasury Wallet, Deposit & Withdrawal"
+            >
+              <Sparkles className="w-3.5 h-3.5 text-[#D6B36A]" />
+              <span>{language === 'ur' ? 'اونر ارننگ و والٹ' : 'Owner Earnings'}</span>
+            </button>
+
             {/* Portal Action Button */}
             {isAuthenticated ? (
               <div className="relative">
@@ -169,7 +184,19 @@ export const Header: React.FC = () => {
                 </button>
 
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-52 bg-white rounded-xl shadow-xl py-2 border border-slate-200 text-slate-800 z-50 text-xs">
+                  <div className="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-xl py-2 border border-slate-200 text-slate-800 z-50 text-xs">
+                    {/* Owner Hub link prominently at top of dropdown */}
+                    <button
+                      onClick={() => handleNav('/owner-earnings')}
+                      className="w-full text-left px-4 py-2.5 hover:bg-amber-50 font-bold text-[#101A33] flex items-center justify-between border-b border-slate-100 bg-amber-50/50"
+                    >
+                      <div className="flex items-center gap-2">
+                        <Sparkles className="w-4 h-4 text-[#D6B36A]" />
+                        <span>{language === 'ur' ? 'اونر ارننگ، والٹ، ڈپازٹ و ودڈرا' : 'Owner Earnings & Wallet Hub'}</span>
+                      </div>
+                      <span className="text-[10px] bg-[#D6B36A] text-[#101A33] px-1.5 py-0.5 rounded font-bold">100% Zero Inv</span>
+                    </button>
+
                     <button
                       onClick={() => handleNav(isAdmin ? '/admin' : '/dashboard')}
                       className="w-full text-left px-4 py-2 hover:bg-slate-50 font-medium text-[#101A33] flex items-center justify-between"
@@ -250,6 +277,18 @@ export const Header: React.FC = () => {
       {/* Mobile Drawer Menu */}
       {mobileMenuOpen && (
         <div className="lg:hidden bg-[#101A33] border-b border-slate-800 text-white px-5 py-6 space-y-4 animate-in slide-in-from-top duration-200">
+          {/* Owner Earnings Highlight for Mobile */}
+          <button
+            onClick={() => handleNav('/owner-earnings')}
+            className="w-full flex items-center justify-between p-3 rounded-xl bg-gradient-to-r from-[#D6B36A]/20 via-[#C8102E]/20 to-[#D6B36A]/20 border border-[#D6B36A]/40 text-white font-bold text-xs"
+          >
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4 h-4 text-[#D6B36A]" />
+              <span>{language === 'ur' ? 'اونر کمائی و والٹ (ڈپازٹ / ودڈرا)' : 'Owner Earnings Hub & Wallet'}</span>
+            </div>
+            <span className="text-[10px] bg-[#D6B36A] text-[#101A33] px-2 py-0.5 rounded font-black">Zero Inv</span>
+          </button>
+
           <div className="grid grid-cols-2 gap-2 text-xs font-medium">
             <button onClick={() => handleNav('/')} className="text-left py-2 px-3 rounded-lg hover:bg-white/5">
               {t.nav.home}
