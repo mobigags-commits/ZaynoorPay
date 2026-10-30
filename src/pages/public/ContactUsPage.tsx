@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { Mail, Phone, MapPin, Send, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
+import { ApiClient } from '../../services/api';
 
 export const ContactUsPage: React.FC = () => {
   const { createTicket, user } = useApp();
@@ -14,7 +15,7 @@ export const ContactUsPage: React.FC = () => {
   const [submitted, setSubmitted] = useState(false);
   const [errorMsg, setErrorMsg] = useState('');
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrorMsg('');
 
@@ -31,6 +32,14 @@ export const ContactUsPage: React.FC = () => {
       },
       message
     );
+
+    // Dispatch to real backend REST API endpoint
+    ApiClient.submitContact({
+      name,
+      email,
+      subject,
+      message,
+    }).catch(() => {});
 
     setSubmitted(true);
     setSubject('');

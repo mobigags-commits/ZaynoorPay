@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useApp } from '../../context/AppContext';
 import { ArrowRight, BookOpen, Clock, User } from 'lucide-react';
+import { AdSenseBanner } from '../../components/common/AdSenseBanner';
 
 export const BlogPage: React.FC = () => {
   const { navigate } = useApp();
@@ -118,6 +119,9 @@ export const BlogPage: React.FC = () => {
             </div>
           </div>
         )}
+
+        {/* Google AdSense High-eCPM Financial Unit */}
+        <AdSenseBanner slotId="blog_feed_in_article_ad" format="auto" />
 
         {/* Secondary Article Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">

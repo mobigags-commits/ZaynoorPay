@@ -13,8 +13,11 @@ import {
   ChevronDown,
   Sparkles,
   ArrowDownLeft,
-  ArrowUpRight
+  ArrowUpRight,
+  Sun,
+  Moon
 } from 'lucide-react';
+import { PWAInstallButton } from './PWAInstallButton';
 
 export const Header: React.FC = () => {
   const { 
@@ -27,7 +30,9 @@ export const Header: React.FC = () => {
     setAppMode, 
     isAuthenticated, 
     isAdmin, 
-    logout 
+    logout,
+    theme,
+    setTheme
   } = useApp();
 
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -137,6 +142,23 @@ export const Header: React.FC = () => {
           {/* ZONE 3: 1 Primary Action + App Mode & Language Switchers */}
           <div className="flex items-center gap-3 shrink-0">
             
+            {/* PWA Install Button */}
+            <PWAInstallButton variant="header" />
+
+            {/* Dark / Light Mode Switcher */}
+            <button
+              onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+              className="flex items-center justify-center p-2 rounded-lg text-xs font-semibold bg-white/10 hover:bg-white/20 transition-colors text-white cursor-pointer"
+              title={theme === 'dark' ? "Switch to Light Mode" : "Switch to Dark Mode"}
+              aria-label="Toggle theme between light and dark"
+            >
+              {theme === 'dark' ? (
+                <Sun className="w-3.5 h-3.5 text-amber-300" />
+              ) : (
+                <Moon className="w-3.5 h-3.5 text-[#D6B36A]" />
+              )}
+            </button>
+
             {/* Language Switcher (EN / اردو) */}
             <div className="relative">
               <button

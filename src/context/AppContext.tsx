@@ -447,9 +447,21 @@ export const AppProvider: React.FC<{ children: React.ReactNode }> = ({ children 
     return (localStorage.getItem('zaynoor_lang') as Language) || 'en';
   });
 
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  const [theme, setTheme] = useState<'light' | 'dark'>(() => {
+    return (localStorage.getItem('zaynoor_theme') as 'light' | 'dark') || 'light';
+  });
   const [appMode, setAppMode] = useState<'web' | 'mobile_app'>('web');
   const [demoMode, setDemoMode] = useState<boolean>(true);
+
+  // Sync theme with document class and storage
+  useEffect(() => {
+    localStorage.setItem('zaynoor_theme', theme);
+    if (theme === 'dark') {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+  }, [theme]);
 
   // User & Auth
   const [user, setUser] = useState<UserProfile>(() => {

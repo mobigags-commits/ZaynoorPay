@@ -5,11 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>ZaynoorPay — Premium Digital Wallet & Mobile Financial Platform</title>
     <meta name="description" content="Next-generation digital wallet and payment platform for fast money transfers, bill payments, mobile top-ups, QR transactions, and secure cross-border remittances." />
+    <meta name="keywords" content="digital wallet, online payments, remittances, send money Pakistan, JazzCash, EasyPaisa, Raast, instant transfer, USD PKR wallet, financial app" />
+    
+    <!-- Google Search Console Verification (Preserved) -->
     <meta name="google-site-verification" content="XVUaoZTJ5RzRv11gpP2XDPJE8X6fWVzWOit5d2MyRhM" />
 
-    <!-- Google AdSense -->
+    <!-- Google AdSense (Preserved) -->
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7550936944889241"
      crossorigin="anonymous"></script>
+    
+    <!-- Progressive Web App (PWA) Standards -->
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <meta name="theme-color" content="#C8102E" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="ZaynoorPay" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/icon.svg" />
     
     <!-- Sitemap & Canonical -->
     <link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
@@ -20,37 +33,110 @@
     <meta property="og:site_name" content="ZaynoorPay" />
     <meta property="og:title" content="ZaynoorPay — Premium Digital Wallet & Mobile Financial Platform" />
     <meta property="og:description" content="Experience effortless digital payments, instant transfers, utility bill clearances, and authorized international remittances with ZaynoorPay." />
-    <meta property="og:image" content="/src/assets/images/hero_fintech_mockup_1792997931529.jpg" />
+    <meta property="og:image" content="/pwa-512x512.png" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content="ZaynoorPay — Premium Digital Wallet & Mobile Financial Platform" />
     <meta name="twitter:description" content="Next-generation digital wallet and payment platform for fast money transfers, bill payments, mobile top-ups, and secure remittances." />
-    <meta name="twitter:image" content="/src/assets/images/hero_fintech_mockup_1792997931529.jpg" />
+    <meta name="twitter:image" content="/pwa-512x512.png" />
 
     <!-- Google Fonts: Plus Jakarta Sans & Noto Nastaliq Urdu -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 48 48'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' stop-color='%23C8102E'/%3E%3Cstop offset='100%25' stop-color='%23850D22'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='48' height='48' rx='12' fill='url(%23g)'/%3E%3Cpath d='M14 16h20l-14 16h14' stroke='%23D6B36A' stroke-width='4' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Ccircle cx='34' cy='16' r='2' fill='%23FFFFFF'/%3E%3C/svg%3E" />
-
-    <!-- Schema.org Structured Data -->
+    <!-- Comprehensive GEO, AEO & Rich Search Schema.org JSON-LD -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "FinancialService",
-      "name": "ZaynoorPay",
-      "description": "Premium multi-currency digital wallet and financial management system.",
-      "url": "https://zaynoorpay.com",
-      "currenciesAccepted": "USD, PKR, GBP, EUR, AED, SAR",
-      "paymentAccepted": "Credit Card, Debit Card, Bank Transfer, QR Pay",
-      "priceRange": "$$"
+      "@graph": [
+        {
+          "@type": "Organization",
+          "@id": "https://zaynoorpay.com/#organization",
+          "name": "ZaynoorPay Global Technologies Inc.",
+          "url": "https://zaynoorpay.com",
+          "logo": "https://zaynoorpay.com/icon.svg",
+          "email": "mobigags@gmail.com",
+          "sameAs": [
+            "https://twitter.com/zaynoorpay",
+            "https://linkedin.com/company/zaynoorpay"
+          ]
+        },
+        {
+          "@type": "FinancialService",
+          "@id": "https://zaynoorpay.com/#financialService",
+          "name": "ZaynoorPay Multi-Currency Digital Wallet",
+          "description": "Multi-currency digital wallet and automated payment platform for domestic and cross-border transfers, bill payments, and merchant cashouts.",
+          "url": "https://zaynoorpay.com",
+          "currenciesAccepted": "USD, PKR, GBP, EUR, AED, SAR",
+          "paymentAccepted": "Bank Wire, Raast, JazzCash, EasyPaisa, Visa, Mastercard, QR Pay",
+          "priceRange": "$$",
+          "provider": {
+            "@id": "https://zaynoorpay.com/#organization"
+          }
+        },
+        {
+          "@type": "WebSite",
+          "@id": "https://zaynoorpay.com/#website",
+          "url": "https://zaynoorpay.com",
+          "name": "ZaynoorPay",
+          "potentialAction": {
+            "@type": "SearchAction",
+            "target": "https://zaynoorpay.com/#/help?q={search_term_string}",
+            "query-input": "required name=search_term_string"
+          }
+        },
+        {
+          "@type": "FAQPage",
+          "@id": "https://zaynoorpay.com/#faq",
+          "mainEntity": [
+            {
+              "@type": "Question",
+              "name": "How can I deposit funds into ZaynoorPay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You can deposit funds via domestic bank transfer, Raast instant ID, JazzCash, EasyPaisa, international wire, or USDT TRC-20."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "How fast are withdrawals from ZaynoorPay?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Domestic withdrawals via Raast, JazzCash, and EasyPaisa clear in real-time under 60 seconds. Bank wires clear within standard banking settlement hours."
+              }
+            },
+            {
+              "@type": "Question",
+              "name": "Does ZaynoorPay support zero-investment earnings for platform owners?",
+              "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, platform owners earn automated passive revenue through Google AdSense display advertising, bill aggregator kickbacks, telecom airtime margins, and merchant checkout MDR fees without initial capital investment."
+              }
+            }
+          ]
+        }
+      ]
     }
     </script>
   </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-[#C8102E] selection:text-white">
     <div id="root"></div>
+    
+    <!-- Service Worker Registration for PWA & Offline Support -->
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(reg) {
+              console.log('[PWA] ServiceWorker registered with scope: ', reg.scope);
+            })
+            .catch(function(err) {
+              console.log('[PWA] ServiceWorker registration failed: ', err);
+            });
+        });
+      }
+    </script>
+
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
-

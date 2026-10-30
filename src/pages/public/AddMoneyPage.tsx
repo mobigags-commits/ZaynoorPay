@@ -18,6 +18,7 @@ import {
   Building2,
   Wallet
 } from 'lucide-react';
+import { ApiClient } from '../../services/api';
 
 type DepositRail = 'jazzcash_easypaisa' | 'bank_raast' | 'card' | 'crypto_usdt' | 'payoneer';
 
@@ -115,6 +116,15 @@ export const AddMoneyPage: React.FC = () => {
     });
 
     if (res.success) {
+      // Async dispatch to backend REST API
+      ApiClient.submitDeposit({
+        amount: parsed,
+        currency,
+        method: providerDetail,
+        referenceNumber: res.transaction?.referenceNumber || `DEP-${Date.now()}`,
+        proofSlipNote: undefined,
+      }).catch(() => {});
+
       setSuccessMsg(
         isUrdu 
           ? `مبارک ہو! آپ کے والٹ میں ${currency} ${parsed.toLocaleString()} کامیابی سے شامل کر دیے گئے ہیں۔` 

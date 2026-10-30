@@ -18,6 +18,7 @@ import {
   Lock,
   Printer
 } from 'lucide-react';
+import { ApiClient } from '../../services/api';
 
 type WithdrawRail = 'jazzcash' | 'easypaisa' | 'bank_raast' | 'atm_cardless' | 'crypto_usdt' | 'payoneer';
 
@@ -129,6 +130,15 @@ export const WithdrawMoneyPage: React.FC = () => {
     });
 
     if (res.success) {
+      // Async dispatch to backend REST API
+      ApiClient.submitWithdrawal({
+        amount: parsed,
+        currency,
+        method: activeRail,
+        recipientAccount,
+        pinCode: '2026',
+      }).catch(() => {});
+
       if (activeRail === 'atm_cardless') {
         const generatedPin = Math.floor(100000 + Math.random() * 900000).toString();
         const refId = `ATM-${Math.floor(10000000 + Math.random() * 90000000)}`;

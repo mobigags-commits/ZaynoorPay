@@ -178,6 +178,16 @@ export const Footer: React.FC = () => {
                   {t.footer.accessibility}
                 </button>
               </li>
+              <li>
+                <button onClick={() => navigate('/disclaimer')} className="hover:text-[#D6B36A] transition-colors font-medium">
+                  {language === 'ur' ? 'قانونی ڈس کلیمر' : 'Risk & Legal Disclaimer'}
+                </button>
+              </li>
+              <li>
+                <a href="/sitemap.xml" target="_blank" rel="noopener noreferrer" className="hover:text-white transition-colors">
+                  XML Sitemap
+                </a>
+              </li>
             </ul>
           </div>
         </div>

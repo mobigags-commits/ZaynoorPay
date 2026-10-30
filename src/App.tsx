@@ -37,6 +37,8 @@ import { TermsPage } from './pages/public/TermsPage';
 import { CookiePolicyPage } from './pages/public/CookiePolicyPage';
 import { ComplaintsDisputesPage } from './pages/public/ComplaintsDisputesPage';
 import { AccessibilityStatementPage } from './pages/public/AccessibilityStatementPage';
+import { DisclaimerPage } from './pages/public/DisclaimerPage';
+import { OfflineIndicator } from './components/common/OfflineIndicator';
 
 // Auth Pages
 import { LoginPage } from './pages/auth/LoginPage';
@@ -72,7 +74,7 @@ import { AccessDeniedPage } from './pages/system/AccessDeniedPage';
 import { MaintenancePage } from './pages/system/MaintenancePage';
 
 const AppRouter: React.FC = () => {
-  const { currentPath, appMode, isAuthenticated, isAdmin } = useApp();
+  const { currentPath, appMode, theme } = useApp();
 
   // If user selected interactive native mobile app mode
   if (appMode === 'mobile_app') {
@@ -118,6 +120,7 @@ const AppRouter: React.FC = () => {
     if (path === '/cookie-policy') return <CookiePolicyPage />;
     if (path === '/disputes') return <ComplaintsDisputesPage />;
     if (path === '/accessibility') return <AccessibilityStatementPage />;
+    if (path === '/disclaimer') return <DisclaimerPage />;
 
     // Auth Pages
     if (path === '/login') return <LoginPage />;
@@ -156,7 +159,7 @@ const AppRouter: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-slate-50 text-slate-900 selection:bg-[#C8102E] selection:text-white">
+    <div className={`min-h-screen flex flex-col ${theme === 'dark' ? 'dark bg-slate-950 text-slate-100' : 'bg-slate-50 text-slate-900'} selection:bg-[#C8102E] selection:text-white transition-colors duration-200`}>
       <Header />
       <main className="flex-1">
         {renderCurrentPage()}
@@ -164,6 +167,7 @@ const AppRouter: React.FC = () => {
       <Footer />
       <CookieConsent />
       <ReceiptModal />
+      <OfflineIndicator />
     </div>
   );
 };
